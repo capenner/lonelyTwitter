@@ -7,6 +7,8 @@ public abstract class Tweet implements Tweetable {
     private Date date;
     private String message;
     private static final Integer MAX_CHARS = 140;
+    private String[] MoodList = new String[5];
+    private int index = 0;
 
     //Empty argument constructor with default values
     Tweet() {
@@ -37,4 +39,14 @@ public abstract class Tweet implements Tweetable {
 
     //No method body implemented! We leave that up to the subclasses (they MUST implement it)
     public abstract Boolean isImportant();
+
+    public String[] addMood(Mood aMood) {
+        this.MoodList[index] = aMood.getMoodFace();
+        index += 1;
+        return MoodList;
+    }
+
+    public String[] getMoodList() {
+        return MoodList;
+    }
 }

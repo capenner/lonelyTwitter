@@ -81,6 +81,7 @@ public class LonelyTwitterActivity extends Activity {
 
 		    NormalTweet myTweet = new NormalTweet("");
 		    myTweet.setMessage("I am looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong message");
+			myTweet.addMood(new Happy());
 
 		    FileOutputStream fos = openFileOutput(FILENAME,
 					Context.MODE_APPEND);
