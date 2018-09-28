@@ -1,11 +1,14 @@
 package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -49,15 +52,20 @@ public class LonelyTwitterActivity extends Activity {
 					tweets.add(newTweet);
 					adapter.notifyDataSetChanged();
 					saveInFile();
-				} catch(TooLongTweetException e) {}
+				} catch (TooLongTweetException e) {
+					// TODO Auto-generated catch block
+				}
 			}
 		});
+
 		Button clearButton = (Button) findViewById(R.id.clear);
-		clearButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			//Delete shit
-			}
-		}
+			clearButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					tweets.clear();
+					adapter.notifyDataSetChanged();
+					saveInFile();
+				}
+		});
 	}
 
 	@Override
