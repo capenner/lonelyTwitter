@@ -40,9 +40,7 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
-				
 				String text = bodyText.getText().toString();
 				ImportantTweet newTweet = new ImportantTweet();
 				try {
@@ -54,6 +52,12 @@ public class LonelyTwitterActivity extends Activity {
 				} catch(TooLongTweetException e) {}
 			}
 		});
+		Button clearButton = (Button) findViewById(R.id.clear);
+		clearButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			//Delete shit
+			}
+		}
 	}
 
 	@Override
@@ -71,10 +75,8 @@ public class LonelyTwitterActivity extends Activity {
 			InputStreamReader isr = new InputStreamReader(fis);
 			BufferedReader reader = new BufferedReader(isr);
 			Gson gson = new Gson();
-			Type listTweetType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+			Type listTweetType = new TypeToken<ArrayList<ImportantTweet>>(){}.getType();
 			tweets = gson.fromJson(reader, listTweetType);
-			reader.flush();
-			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			tweets = new ArrayList<Tweet>();
