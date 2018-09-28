@@ -18,6 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class LonelyTwitterActivity extends Activity {
 
 	private static final String FILENAME = "file.sav";
@@ -47,9 +50,8 @@ public class LonelyTwitterActivity extends Activity {
 					newTweet.setDate(new Date());
 					tweets.add(newTweet);
 					adapter.notifyDataSetChanged();
-					saveInFile(text, new Date(System.currentTimeMillis()));
-				}
-				catch(TooLongTweetException e) {}
+					saveInFile();
+				} catch(TooLongTweetException e) {}
 			}
 		});
 	}
@@ -59,24 +61,23 @@ public class LonelyTwitterActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		loadFromFile();
-		adapter = new ArrayAdapter<String>(this, R.layout.list_item, tweets);
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
 		oldTweetsList.setAdapter(adapter);
 	}
 
 	private void loadFromFile() {
-		ArrayList<String> tweets = new ArrayList<String>();
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
-			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-			String line = in.readLine();
-			while (line != null) {
-				tweets.add(line);
-				line = in.readLine();
-			}
-
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader reader = new BufferedReader(isr);
+			Gson gson = new Gson();
+			Type listTweetType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+			tweets = gson.fromJson(reader, listTweetType);
+			reader.flush();
+			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			tweets = new ArrayList<String>();
+			tweets = new ArrayList<Tweet>();
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -84,12 +85,14 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 	
-	private void saveInFile(String text, Date date) {
+	private void saveInFile() {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME,
-					Context.MODE_APPEND);
-			fos.write(new String(date.toString() + " | " + text)
-					.getBytes());
+			FileOutputStream fos = openFileOutput(FILENAME, 0);
+			OutputStreamWriter osw = new OutputStreamWriter(fos);
+			BufferedWriter writer = new BufferedWriter(osw);
+			Gson gson = new Gson();
+			gson.toJson(tweets, writer);
+			writer.flush();
 			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
