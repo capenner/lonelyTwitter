@@ -39,11 +39,16 @@ public abstract class Tweet implements Tweetable {
         this.date = date;
     }
 
-    public Date getDate() { return this.date; }
-
+    public Date getDate() {
+        return this.date;
+    }
     //No method body implemented! We leave that up to the subclasses (they MUST implement it)
     public abstract Boolean isImportant();
 
+    public String toString() {
+        return this.date.toString()+" | "+this.message;
+    }
+    
     public String[] addMood(Mood aMood) {
         this.MoodList[index] = aMood.getMoodFace();
         index += 1;
