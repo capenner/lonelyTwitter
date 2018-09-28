@@ -11,6 +11,7 @@ public abstract class Tweet implements Tweetable {
     private int index = 0;
 
     //Empty argument constructor with default values
+    /*
     Tweet() {
         //Must use the 'this' keyword in order to specify the current object message = message does nothing!
         this.date = new Date();
@@ -21,7 +22,7 @@ public abstract class Tweet implements Tweetable {
     Tweet(String message) {
         this.date = new Date();
         this.message = message;
-    }
+    }*/
 
     public String getMessage() {
         return this.message;
