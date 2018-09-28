@@ -89,12 +89,24 @@ public class LonelyTwitterActivity extends Activity {
 	
 	private void saveInFile() {
 		try {
+<<<<<<< Updated upstream
 			FileOutputStream fos = openFileOutput(FILENAME, 0);
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter writer = new BufferedWriter(osw);
 			Gson gson = new Gson();
 			gson.toJson(tweets, writer);
 			writer.flush();
+=======
+
+		    NormalTweet myTweet = new NormalTweet("");
+		    myTweet.setMessage("I am message");
+			myTweet.addMood(new Happy());
+
+		    FileOutputStream fos = openFileOutput(FILENAME,
+					Context.MODE_APPEND);
+			fos.write(new String(date.toString()  + " | " + myTweet.getMoodList()[0] + " | " + text)
+					.getBytes());
+>>>>>>> Stashed changes
 			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
