@@ -1,3 +1,12 @@
+/**
+ * Mood object class, not used in app so don't worry about it.
+ * @author Christopher Penner
+ * @param date  holds the current date
+ * @param mood_face string that has the face of the mood
+ * @see ca.ualberta.cs.lonelytwitter.Happy
+ * @see ca.ualberta.cs.lonelytwitter.Depressed
+ */
+
 package ca.ualberta.cs.lonelytwitter;
 
 import java.util.Date;

@@ -1,3 +1,12 @@
+/**
+ * Basic Tweet object
+ * @param date  Date the "tweet" was posted
+ * @param message   A string of the message included message
+ * @param Moodlist  A list of moods that are string objects
+ * @see ca.ualberta.cs.lonelytwitter.NormalTweet
+ * @see ca.ualberta.cs.lonelytwitter.ImportantTweet
+ */
+
 package ca.ualberta.cs.lonelytwitter;
 
 import java.util.Date;
@@ -23,6 +32,10 @@ public abstract class Tweet implements Tweetable {
         this.date = new Date();
         this.message = message;
     }*/
+
+    /**
+     * @deprecated no tweet constructor as demoed in lab, commented out for reverting.
+     */
 
     public String getMessage() {
         return this.message;
@@ -54,6 +67,11 @@ public abstract class Tweet implements Tweetable {
         index += 1;
         return MoodList;
     }
+
+    /**
+     * @deprecated addMood not used at all (unimplemented)
+     * @return MoodList
+     */
 
     public String[] getMoodList() {
         return MoodList;

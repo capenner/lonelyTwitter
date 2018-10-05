@@ -1,3 +1,11 @@
+/**
+ * Main activity of the lonelyTwitter application, will list user inputted strings with time stamps.<br/>
+ * App is currently not runnable
+ * @author Joshua Campbell
+ * @version 0.2.0
+ * @see ca.ualberta.cs.lonelytwitter.Tweet for main tweet object
+ * @deprecated Mood and its associated classes
+ */
 package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
