@@ -16,17 +16,19 @@ public class ElasticsearchTweetController {
     private static JestDroidClient client;
 
     // TODO we need a function which adds tweets to elastic search
-    public static class AddTweetsTask extends AsyncTask<NormalTweet, Void, Void> {
-
+    public static class AddTweetsTask extends AsyncTask<Tweet, Void, Void> {
         @Override
         protected Void doInBackground(NormalTweet... tweets) {
-            //verifySettings();
+            verifySettings();
 
             for (NormalTweet tweet : tweets) {
-                Index index = new Index.Builder(tweet).index("testing").type("tweet").build();
+                Index index = new Index.Builder(tweet).index("Resting").type("tweet").build();
 
                 try {
-                    // where is the client?
+                    DocumentResult result = client.execute(index);
+					if(result.isSucceeded()) {
+						tweet.setTweetID(result.getID()):
+					}
                 }
                 catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the tweets");
@@ -36,19 +38,22 @@ public class ElasticsearchTweetController {
             return null;
         }
     }
-
-    // TODO we need a function which gets tweets from elastic search
-/*    public static class GetTweetsTask extends AsyncTask<String, Void, ArrayList<NormalTweet>> {
+	
+    public static class GetTweetsTask extends AsyncTask<String, Void, ArrayList<Tweet>> {
         @Override
-        protected ArrayList<NormalTweet> doInBackground(String... search_parameters) {
+        protected ArrayList<Tweet> doInBackground(String... search_parameters) {
             verifySettings();
 
-            ArrayList<NormalTweet> tweets = new ArrayList<NormalTweet>();
-
-                // TODO Build the query
+            ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+			Search search = new Search.Builder(params[0]).addIndex("Resting").addType("Tweet").build();
 
             try {
-               // TODO get the results of the query
+               JestResult result = client.execute(search);
+			   if (result.isSucceeded()) {
+				   List<NormalTweet> tweetList;
+				   tweetList = result.getSourceAsObjectList(NormalTweet.class);
+				   tweets.addAll(tweetList);
+			   }
             }
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
@@ -56,7 +61,7 @@ public class ElasticsearchTweetController {
 
             return tweets;
         }
-    }*/
+    }
 
 
 
