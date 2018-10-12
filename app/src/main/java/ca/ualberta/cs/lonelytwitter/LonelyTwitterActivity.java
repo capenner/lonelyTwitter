@@ -27,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 
 public class LonelyTwitterActivity extends Activity {
 
-	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
@@ -50,10 +49,10 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				Tweet newTweet = new NormalTweet(text);
+				NormalTweet newTweet = new NormalTweet(text);
 				tweetList.add(newTweet);
 				adapter.notifyDataSetChanged();
-				new ElasticsearchTweetController.AddTweetTask().execute(newTweet);
+				new ElasticsearchTweetController.AddTweetsTask().execute(newTweet);
 			}
 		});
 
@@ -61,9 +60,8 @@ public class LonelyTwitterActivity extends Activity {
 
 			public void onClick(View v) {
 				setResult(RESULT_OK);
-				tweetList.clear();
-				deleteFile(FILENAME);  // TODO deprecate this button
-				adapter.notifyDataSetChanged();
+				String text = bodyText.getText().toString();
+				new ElasticsearchTweetController.GetTweetsTask().execute(text);
 			}
 		});
 	}
@@ -74,9 +72,9 @@ public class LonelyTwitterActivity extends Activity {
 		super.onStart();
 		try {
 			tweetList = new ElasticsearchTweetController.GetTweetsTask().execute("").get();
-		} catch(Exception e) {} //Don't do this
-		adapter = new ArrayAdapter<Tweet>(this,
-				R.layout.list_item, tweetList);
+		}
+		catch(Exception e) {} //Don't do this
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 	}
 }
