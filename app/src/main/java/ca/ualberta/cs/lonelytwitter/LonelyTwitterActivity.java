@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -61,7 +62,13 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				new ElasticsearchTweetController.GetTweetsTask().execute(text);
+				try {
+					tweetList = new ElasticsearchTweetController.GetTweetsTask().execute(text).get();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -72,8 +79,11 @@ public class LonelyTwitterActivity extends Activity {
 		super.onStart();
 		try {
 			tweetList = new ElasticsearchTweetController.GetTweetsTask().execute("").get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
 		}
-		catch(Exception e) {} //Don't do this
 		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 	}

@@ -21,6 +21,17 @@ import io.searchbox.core.Search;
 public class ElasticsearchTweetController {
     private static JestDroidClient client;
 
+    public static void verifySettings() {
+        if (client == null) {
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080/");
+            DroidClientConfig config = builder.build();
+
+            JestClientFactory factory = new JestClientFactory();
+            factory.setDroidClientConfig(config);
+            client = (JestDroidClient) factory.getObject();
+        }
+    }
+
     // TODO we need a function which adds tweets to elastic search
     public static class AddTweetsTask extends AsyncTask<Tweet, Void, Void> {
         @Override
@@ -28,7 +39,8 @@ public class ElasticsearchTweetController {
             verifySettings();
 
             Tweet tweet = params[0];
-            Index index=new Index.Builder(tweet).index("Resting").type("tweet").build();
+            Index index = new Index.Builder(tweet).index("REACT-serv").type("tweet").build();
+            Log.d("Hello", "doInBackground: fac");
             try {
                 DocumentResult result = client.execute(index);
                 if (result.isSucceeded()) {
@@ -48,8 +60,8 @@ public class ElasticsearchTweetController {
             verifySettings();
 
             ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-			Search search = new Search.Builder(search_parameters[0]).addIndex("Resting").addType("Tweet").build();
-
+			Search search = new Search.Builder(search_parameters[0]).addIndex("REACT-serv").addType("Tweet").build();
+            Log.d("Hello", "doInBackground: off");
             try {
                JestResult result = client.execute(search);
 			   if (result.isSucceeded()) {
@@ -63,17 +75,6 @@ public class ElasticsearchTweetController {
             }
 
             return tweets;
-        }
-    }
-
-    public static void verifySettings() {
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
         }
     }
 }
