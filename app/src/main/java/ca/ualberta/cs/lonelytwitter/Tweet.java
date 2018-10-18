@@ -18,11 +18,8 @@ public abstract class Tweet {
         this.message = message;
         this.date = date;
     }
-
-
+	
     public abstract Boolean isImportant();
-
-
 
 
     public void setMessage(String message) throws TweetTooLongException {
